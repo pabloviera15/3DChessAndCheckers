@@ -66,31 +66,31 @@
     <Compile Include="Assets\Scripts\CheckersChessGame.cs" />
     <Compile Include="Assets\Scripts\MouseInput.cs" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>H:/Unity_Proyects/DSA_Proyects/DSA_Assignment_05/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>H:/Unity_Proyects/DSA_Proyects/3DChessAndCheckers/DSA_Assignment_05/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>H:/Unity_Proyects/DSA_Proyects/DSA_Assignment_05/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>H:/Unity_Proyects/DSA_Proyects/3DChessAndCheckers/DSA_Assignment_05/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>H:/Unity_Proyects/DSA_Proyects/DSA_Assignment_05/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>H:/Unity_Proyects/DSA_Proyects/3DChessAndCheckers/DSA_Assignment_05/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>H:/Unity_Proyects/DSA_Proyects/DSA_Assignment_05/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>H:/Unity_Proyects/DSA_Proyects/3DChessAndCheckers/DSA_Assignment_05/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>H:/Unity_Proyects/DSA_Proyects/DSA_Assignment_05/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>H:/Unity_Proyects/DSA_Proyects/3DChessAndCheckers/DSA_Assignment_05/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>H:/Unity_Proyects/DSA_Proyects/DSA_Assignment_05/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>H:/Unity_Proyects/DSA_Proyects/3DChessAndCheckers/DSA_Assignment_05/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>H:/Unity_Proyects/DSA_Proyects/DSA_Assignment_05/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>H:/Unity_Proyects/DSA_Proyects/3DChessAndCheckers/DSA_Assignment_05/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>H:/Unity_Proyects/DSA_Proyects/DSA_Assignment_05/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>H:/Unity_Proyects/DSA_Proyects/3DChessAndCheckers/DSA_Assignment_05/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>H:/Unity_Proyects/DSA_Proyects/DSA_Assignment_05/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>H:/Unity_Proyects/DSA_Proyects/3DChessAndCheckers/DSA_Assignment_05/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.15f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

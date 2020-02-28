@@ -9,10 +9,7 @@ public class MouseInput : MonoBehaviour
     Board BoardObj;
     //Declare variable to store the mouse position
     Vector3 tempMousePosition;
-    //Declare variable to store the previous value of the player
-    Vector3 tempPlayersPositions;
-    float tempUpdatedPlayersPositionX;
-    float tempUpdatedPlayersPositionY;
+   
     //Declare the array to store all the Players Pieces
     GameObject[] player1Array;
     GameObject[] player2Array;
@@ -48,11 +45,7 @@ public class MouseInput : MonoBehaviour
         //Get mouse position every frame
         tempMousePosition = Input.mousePosition;
 
-        if (Mathf.Round(this.transform.position.x) % 2 == 0 || Mathf.Round(this.transform.position.y) % 2 == 0)
-        {
-            tempUpdatedPlayersPositionX = Mathf.Round(this.transform.position.x);
-            tempUpdatedPlayersPositionY = Mathf.Round(this.transform.position.y);
-        }
+        
 
 
         
@@ -61,20 +54,29 @@ public class MouseInput : MonoBehaviour
 
     void OnMouseDown()
     {
-        tempPlayersPositions = this.transform.position;
-       
-    }
+        //Store the Previous Position of the piece
+        BoardObj.tempPlayersPositionsX = Mathf.Round(this.transform.position.x);
+        BoardObj.tempPlayersPositionsY = Mathf.Round(this.transform.position.y);
+        //Store current clicked piece in a variable
+        //BoardObj.tempPiece = null;
+        BoardObj.tempPiece = this.gameObject;
+        print(BoardObj.tempPiece.name);
 
+    }
     //Update  dragging with mouse
     void OnMouseDrag()
     {
-        tempMousePosition.z = 16.5f; // Set this to be the distance you want the object to be placed in front of the camera.
+        tempMousePosition.z = 17; // Set this to be the distance you want the object to be placed in front of the camera.
         //Get relative position mapped between the camera and thedistance
         this.transform.position = Camera.main.ScreenToWorldPoint(tempMousePosition);
 
-        BoardObj.tempPiece = null;
-        BoardObj.tempPiece = this.gameObject;
-        print(BoardObj.tempPiece.name);
+        if (Mathf.Round(this.transform.position.x) % 2 == 0 || Mathf.Round(this.transform.position.y) % 2 == 0)
+        {
+            BoardObj.tempUpdatedPlayersPositionX = Mathf.Round(this.transform.position.x);
+            BoardObj.tempUpdatedPlayersPositionY = Mathf.Round(this.transform.position.y);
+        }
+
+        print("X Pos " + BoardObj.tempUpdatedPlayersPositionX + "Y Pos " + BoardObj.tempUpdatedPlayersPositionY);
 
     }
 
@@ -84,15 +86,15 @@ public class MouseInput : MonoBehaviour
         // (If not white or black Tile)
         //If the position coordenades are odd
         //If a piece is dropped on the middle of any board line return to the place where it was dragged
-        if (tempUpdatedPlayersPositionX % 2 != 0 || tempUpdatedPlayersPositionY % 2 != 0)
+        if (BoardObj.tempUpdatedPlayersPositionX % 2 != 0 || BoardObj.tempUpdatedPlayersPositionY % 2 != 0)
         {
-            this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
+            this.transform.position = new Vector3(BoardObj.tempPlayersPositionsX, BoardObj.tempPlayersPositionsY, 6);
 
         }
 
         // (If Black Tile)
         //If the position coordinades are even move the piece to the center of the new tile
-        if (tempUpdatedPlayersPositionY % 2 == 0 || tempUpdatedPlayersPositionY % 2 == 0)
+        if (BoardObj.tempUpdatedPlayersPositionY % 2 == 0 || BoardObj.tempUpdatedPlayersPositionY % 2 == 0)
         {
             
 
@@ -104,47 +106,7 @@ public class MouseInput : MonoBehaviour
             else if(this.gameObject.tag == "Player2")
             {
                 DeagonalLimitMovementPlayer2();
-            }
-
-            //ReturnToPreviousPlaceIfDropedOnAnotherPiecePlayer1();
-
-
-            //Limits the movement for 1 tile for forward left or right deagonal     
-            //if (playersTurnBoolObj.playersTurnBool)
-            //{
-            //DeagonalLimitMovementPlayer1();
-            //print("Player1" + playersTurnBoolObj.playersTurnBool);
-
-            //if (this.tag == "Player1")
-            //{
-            //    DeagonalLimitMovementPlayer1();
-
-            //    print("Player1" + BoardObj.playersTurnBool);
-            //}
-            //else
-            //{
-            //    this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-            //    print("Return Player2" + BoardObj.playersTurnBool);
-            //}
-
-            //}
-            //if (playersTurnBoolObj.playersTurnBool)
-            //{
-            //DeagonalLimitMovementPlayer2();
-            //print("Return Player1" + playersTurnBoolObj.playersTurnBool);
-
-            //if (this.tag == "Player2")
-            //{
-            //    print("Player2" + BoardObj.playersTurnBool);
-            //    DeagonalLimitMovementPlayer2();
-
-            //}
-            //else
-            //{
-            //    this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-            //    print("Return Player1" + BoardObj.playersTurnBool);
-            //}
-            //}
+            }      
 
 
         }
@@ -152,102 +114,27 @@ public class MouseInput : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        BoardObj.tempPiece.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-        BoardObj.tempPiece = null;
+        BoardObj.tempPiece.transform.position = new Vector3(BoardObj.tempPlayersPositionsX, BoardObj.tempPlayersPositionsY, 6);
+        print("OUCH!!!");
     }
-
-    void ReturnToPreviousPlaceIfDropedOnAnotherPiecePlayer1()
-    {
-        //--------------------------------------------------------------PLAYER 1-----------------------------------------------------------------------------------
-        
-            //if a piece is on the next place from Player 1 return to the previus place
-            for (int i = 0; i < player1List.Count; i++)
-            {
-                if (tempUpdatedPlayersPositionX == player1List[i].transform.position.x && tempUpdatedPlayersPositionY == player1List[i].transform.position.y)
-                {
-                    this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                    print("Return");
-                    break;
-                }
-
-            }
-            //if a piece is on the next place from Player 2 return to the previus place
-            for (int i = 0; i < player2List.Count; i++)
-            {
-                if (tempUpdatedPlayersPositionX == player2List[i].transform.position.x && tempUpdatedPlayersPositionY == player2List[i].transform.position.y)
-                {
-                    this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                    print("Return");
-                    break;
-                }
-
-            }
-        /*
-        //--------------------------------------------------------------PLAYER 2-----------------------------------------------------------------------------------
-        if (this.gameObject.tag == "Player2")
-        {
-            //if a piece is on the next place from Player 1 return to the previus place
-            for (int i = 0; i < player1List.Count; i++)
-            {
-                if (tempUpdatedPlayersPositionX == player1List[i].transform.position.x && tempUpdatedPlayersPositionY == player1List[i].transform.position.y)
-                {
-                    this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                }
-
-            }
-            //if a piece is on the next place from Player 2 return to the previus place
-            for (int i = 0; i < player2List.Count; i++)
-            {
-                if (tempUpdatedPlayersPositionX == player2List[i].transform.position.x && (tempUpdatedPlayersPositionY == player2List[i].transform.position.y))
-                {
-                    this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                }
-
-            }
-        }*/
-    }
+    
 
     //Limit themovements to checker account
     void DeagonalLimitMovementPlayer1()
     {
         //ReturnToPreviousPlaceIfDropedOnAnotherPiecePlayer1();
-        //if player 1 move Down to Up --------------------------PLAYER 1---------------------------------------------------------------------------------------------------------------- 
-                 /*   
-            //if a piece is on the next place from Player 1 return to the previus place
-            for (int i = 0; i < player1List.Count; i++)
-            {
-                if (tempUpdatedPlayersPositionX == player1List[i].transform.position.x && tempUpdatedPlayersPositionY == player1List[i].transform.position.y)
-                {
-                    this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                    print("Return");
-                    break;
-                }
-
-            }
-            //if a piece is on the next place from Player 2 return to the previus place
-            for (int i = 0; i < player2List.Count; i++)
-            {
-                if (tempUpdatedPlayersPositionX == player2List[i].transform.position.x && tempUpdatedPlayersPositionY == player2List[i].transform.position.y)
-                {
-                    this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                    print("Return");
-                    break;
-                }
-
-            }
-            */
-
+        //if player 1 move Down to Up --------------------------PLAYER 1----------------------------------------------------------------------------------------------------------------                 
             
             //JUMP Right
             //If a piece is on the next place JUMP
-            if (tempUpdatedPlayersPositionX == (tempPlayersPositions.x + 4) && tempUpdatedPlayersPositionY == (tempPlayersPositions.y + 4))
+            if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX + 4) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY + 4))
             {
                 for (int i = 0; i < player1List.Count; i++)
                 {
                     //if player 1 piece is on the next move, jump
-                    if ((player1List[i].transform.position.x == (tempPlayersPositions.x + 2) && player1List[i].transform.position.y == (tempPlayersPositions.y + 2)))
+                    if ((player1List[i].transform.position.x == (BoardObj.tempPlayersPositionsX + 2) && player1List[i].transform.position.y == (BoardObj.tempPlayersPositionsY + 2)))
                     {
-                        this.transform.position = new Vector3(tempPlayersPositions.x + 4, tempPlayersPositions.y + 4, 6);
+                        this.transform.position = new Vector3(BoardObj.tempPlayersPositionsX + 4, BoardObj.tempPlayersPositionsY + 4, 6);
 
                         //Toogle Players turn Boolean
                         TooglePlayersTurnBool1();
@@ -255,9 +142,9 @@ public class MouseInput : MonoBehaviour
                         break;
                     }
                     //if player 2 piece is on the next move, jump and delete it
-                    if ((player2List[i].transform.position.x == (tempPlayersPositions.x + 2) && player2List[i].transform.position.y == (tempPlayersPositions.y + 2)))
+                    if ((player2List[i].transform.position.x == (BoardObj.tempPlayersPositionsX + 2) && player2List[i].transform.position.y == (BoardObj.tempPlayersPositionsY + 2)))
                     {
-                        this.transform.position = new Vector3(tempPlayersPositions.x + 4, tempPlayersPositions.y + 4, 6);
+                        this.transform.position = new Vector3(BoardObj.tempUpdatedPlayersPositionX, BoardObj.tempUpdatedPlayersPositionY, 6);
 
                         MoveDeadPlayer2ToTheSide(i);
 
@@ -275,26 +162,22 @@ public class MouseInput : MonoBehaviour
 
                         break;
                     }
-                    //if bad movement return to place
-                    else
-                    {
-                        this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                    }
+                    
                 }
 
 
             }
             //JUMP Left
             //If a piece is on the next place JUMP
-            else if (tempUpdatedPlayersPositionX == (tempPlayersPositions.x - 4) && tempUpdatedPlayersPositionY == (tempPlayersPositions.y + 4))
+            else if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX - 4) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY + 4))
             {
                 for (int i = 0; i < player1List.Count; i++)
                 {
 
                     //if player 1 piece is on the next move, jump
-                    if ((player1List[i].transform.position.x == (tempPlayersPositions.x - 2) && player1List[i].transform.position.y == (tempPlayersPositions.y + 2)))
+                    if ((player1List[i].transform.position.x == (BoardObj.tempPlayersPositionsX - 2) && player1List[i].transform.position.y == (BoardObj.tempPlayersPositionsY + 2)))
                     {
-                        this.transform.position = new Vector3(tempPlayersPositions.x - 4, tempPlayersPositions.y + 4, 6);
+                        this.transform.position = new Vector3(BoardObj.tempPlayersPositionsX - 4, BoardObj.tempPlayersPositionsY + 4, 6);
 
                         //Toogle Players turn Boolean
                         TooglePlayersTurnBool1();
@@ -302,9 +185,9 @@ public class MouseInput : MonoBehaviour
                         break;
                     }
                     //if player 2 piece is on the next move, jump and delete it
-                    if ((player2List[i].transform.position.x == (tempPlayersPositions.x - 2) && player2List[i].transform.position.y == (tempPlayersPositions.y + 2)))
+                    if ((player2List[i].transform.position.x == (BoardObj.tempPlayersPositionsX - 2) && player2List[i].transform.position.y == (BoardObj.tempPlayersPositionsY + 2)))
                     {
-                        this.transform.position = new Vector3(tempPlayersPositions.x - 4, tempPlayersPositions.y + 4, 6);
+                        this.transform.position = new Vector3(BoardObj.tempUpdatedPlayersPositionX, BoardObj.tempUpdatedPlayersPositionY, 6);
 
 
                         MoveDeadPlayer2ToTheSide(i);
@@ -323,36 +206,28 @@ public class MouseInput : MonoBehaviour
                         
                         break;
                     }
-                    //if bad movement return to place
-                    else
-                    {
-                        this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                    }
+                   
                 }
 
             }
 
             //Deagonal Right
-            else if (tempUpdatedPlayersPositionX == (tempPlayersPositions.x + 2) && tempUpdatedPlayersPositionY == (tempPlayersPositions.y + 2))
+            else if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX + 2) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY + 2))
             {
-                this.transform.position = new Vector3(tempUpdatedPlayersPositionX, tempUpdatedPlayersPositionY, 6);
+                this.transform.position = new Vector3(BoardObj.tempUpdatedPlayersPositionX, BoardObj.tempUpdatedPlayersPositionY, 6);
 
                 //Toogle Players turn Boolean
                 TooglePlayersTurnBool1();
 
             }
             //Deagonal Left
-            else if (tempUpdatedPlayersPositionX == (tempPlayersPositions.x - 2) && tempUpdatedPlayersPositionY == (tempPlayersPositions.y + 2))
+            else if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX - 2) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY + 2))
             {
-                this.transform.position = new Vector3(tempUpdatedPlayersPositionX, tempUpdatedPlayersPositionY, 6);
+                this.transform.position = new Vector3(BoardObj.tempUpdatedPlayersPositionX, BoardObj.tempUpdatedPlayersPositionY, 6);
                 //Toogle Players turn Boolean
                 TooglePlayersTurnBool1();
             }
-            //Return to place if not moving correctly
-            else
-            {
-                this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-            }
+           
            
       
        
@@ -367,36 +242,17 @@ public class MouseInput : MonoBehaviour
     void DeagonalLimitMovementPlayer2()
     {
         //if player 2 move Up to Down ------------------------------------------------------------PLAYER 2------------------------------------------------------------------------------
-                    //if a piece is on the next place from Player 1 return to the previus place
-            for (int i = 0; i < player1List.Count; i++)
-            {
-                if (tempUpdatedPlayersPositionX == player1List[i].transform.position.x && tempUpdatedPlayersPositionY == player1List[i].transform.position.y)
-                {
-                    this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                }
-
-            }
-            //if a piece is on the next place from Player 2 return to the previus place
-            for (int i = 0; i < player2List.Count; i++)
-            {
-                if (tempUpdatedPlayersPositionX == player2List[i].transform.position.x && (tempUpdatedPlayersPositionY == player2List[i].transform.position.y))
-                {
-                    this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                }
-
-            }
-
-
+         
             //JUMP Right
             //If a piece is on the next place JUMP
-            if (tempUpdatedPlayersPositionX == (tempPlayersPositions.x + 4) && tempUpdatedPlayersPositionY == (tempPlayersPositions.y - 4))
+            if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX + 4) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY - 4))
             {
                 for (int i = 0; i < player1List.Count; i++)
                 {
                     //if player 1 piece is on the next move, jump and delete it
-                    if ((player1List[i].transform.position.x == (tempPlayersPositions.x + 2) && player1List[i].transform.position.y == (tempPlayersPositions.y - 2)))
+                    if ((player1List[i].transform.position.x == (BoardObj.tempPlayersPositionsX + 2) && player1List[i].transform.position.y == (BoardObj.tempPlayersPositionsY - 2)))
                     {
-                        this.transform.position = new Vector3(tempPlayersPositions.x + 4, tempPlayersPositions.y - 4, 6);
+                        this.transform.position = new Vector3(BoardObj.tempUpdatedPlayersPositionX, BoardObj.tempUpdatedPlayersPositionY, 6);
 
                         MoveDeadPlayer1ToTheSide(i);
                         print("YOffset " + BoardObj.yOffset4DeadPieces);
@@ -415,30 +271,26 @@ public class MouseInput : MonoBehaviour
 
                     }
                     //if player 2 piece is on the next move, jump
-                    if (player2List[i].transform.position.x == (tempPlayersPositions.x + 2) && player2List[i].transform.position.y == (tempPlayersPositions.y - 2))
+                    if (player2List[i].transform.position.x == (BoardObj.tempPlayersPositionsX + 2) && player2List[i].transform.position.y == (BoardObj.tempPlayersPositionsY - 2))
                     {
-                        this.transform.position = new Vector3(tempPlayersPositions.x + 4, tempPlayersPositions.y - 4, 6);
+                        this.transform.position = new Vector3(BoardObj.tempPlayersPositionsX + 4, BoardObj.tempPlayersPositionsY - 4, 6);
 
                         break;
                     }
-                    //if bad movement return to place
-                    else
-                    {
-                        this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                    }
+                    
                 }
             }
             //JUMP Left
             //If a piece is on the next place JUMP
-            else if (tempUpdatedPlayersPositionX == (tempPlayersPositions.x - 4) && tempUpdatedPlayersPositionY == (tempPlayersPositions.y - 4))
+            else if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX - 4) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY - 4))
             {
                 for (int i = 0; i < player1List.Count; i++)
                 {
                     //if player 1 piece is on the next move, jump and delete it
-                    if ((player1List[i].transform.position.x == (tempPlayersPositions.x - 2) && player1List[i].transform.position.y == (tempPlayersPositions.y - 2)))
+                    if ((player1List[i].transform.position.x == (BoardObj.tempPlayersPositionsX - 2) && player1List[i].transform.position.y == (BoardObj.tempPlayersPositionsY - 2)))
 
                     {
-                        this.transform.position = new Vector3(tempPlayersPositions.x - 4, tempPlayersPositions.y - 4, 6);
+                        this.transform.position = new Vector3(BoardObj.tempUpdatedPlayersPositionX, BoardObj.tempUpdatedPlayersPositionY, 6);
 
                         MoveDeadPlayer1ToTheSide(i);
                         print("YOffset " + BoardObj.yOffset4DeadPieces);
@@ -454,46 +306,38 @@ public class MouseInput : MonoBehaviour
                         break;
                     }
                     //if player 2 piece is on the next move, jump
-                    if ((player2List[i].transform.position.x == (tempPlayersPositions.x - 2) && player2List[i].transform.position.y == (tempPlayersPositions.y - 2)))
+                    if ((player2List[i].transform.position.x == (BoardObj.tempPlayersPositionsX - 2) && player2List[i].transform.position.y == (BoardObj.tempPlayersPositionsY - 2)))
                     {
-                        this.transform.position = new Vector3(tempPlayersPositions.x - 4, tempPlayersPositions.y - 4, 6);
+                        this.transform.position = new Vector3(BoardObj.tempPlayersPositionsX - 4, BoardObj.tempPlayersPositionsY - 4, 6);
 
                         //Toogle Players turn Boolean
                         TooglePlayersTurnBool2();
 
                         break;
                     }
-                    //if bad movement return to place
-                    else
-                    {
-                        this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-                    }
+                    
                 }
 
             }
 
             //Deagonal Right
-            else if (tempUpdatedPlayersPositionX == (tempPlayersPositions.x + 2) && tempUpdatedPlayersPositionY == (tempPlayersPositions.y - 2))
+            else if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX + 2) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY - 2))
             {
-                this.transform.position = new Vector3(tempUpdatedPlayersPositionX, tempUpdatedPlayersPositionY, 6);
+                this.transform.position = new Vector3(BoardObj.tempUpdatedPlayersPositionX, BoardObj.tempUpdatedPlayersPositionY, 6);
 
                 //Toogle Players turn Boolean
                 TooglePlayersTurnBool2();
 
             }
             //Deagonal Left
-            else if (tempUpdatedPlayersPositionX == (tempPlayersPositions.x - 2) && tempUpdatedPlayersPositionY == (tempPlayersPositions.y - 2))
+            else if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX - 2) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY - 2))
             {
-                this.transform.position = new Vector3(tempUpdatedPlayersPositionX, tempUpdatedPlayersPositionY, 6);
+                this.transform.position = new Vector3(BoardObj.tempUpdatedPlayersPositionX, BoardObj.tempUpdatedPlayersPositionY, 6);
 
                 //Toogle Players turn Boolean
                 TooglePlayersTurnBool2();
             }
-            //Return to place if not moving correctly
-            else
-            {
-                this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
-            }
+            
         
     }
 
@@ -502,7 +346,7 @@ public class MouseInput : MonoBehaviour
     {
         if (this.transform.position.x == a && this.transform.position.y == b)
         {
-            this.transform.position = new Vector3(tempPlayersPositions.x, tempPlayersPositions.y, 6);
+            this.transform.position = new Vector3(BoardObj.tempPlayersPositionsX, BoardObj.tempPlayersPositionsY, 6);
         }
     }
 
