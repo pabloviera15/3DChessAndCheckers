@@ -98,7 +98,11 @@ public class MouseInput : MonoBehaviour
             {
                 DeagonalShortMovePlayer1();
 <<<<<<< HEAD
+<<<<<<< HEAD
                 //DeagonalJUMPPlayer1();
+=======
+                DeagonalJUMPPlayer1();
+>>>>>>> parent of 9daa4bc... ScrewedVersion
 =======
                 DeagonalJUMPPlayer1();
 >>>>>>> parent of 9daa4bc... ScrewedVersion
@@ -107,7 +111,11 @@ public class MouseInput : MonoBehaviour
             {
                 DeagonalShortMovePlayer2();
 <<<<<<< HEAD
+<<<<<<< HEAD
                //DeagonalJUMPPlayer2();
+=======
+                DeagonalJUMPPlayer2();
+>>>>>>> parent of 9daa4bc... ScrewedVersion
 =======
                 DeagonalJUMPPlayer2();
 >>>>>>> parent of 9daa4bc... ScrewedVersion
@@ -120,8 +128,11 @@ public class MouseInput : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         BoardObj.tempPiece.transform.position = new Vector3(BoardObj.tempPlayersPositionsX, BoardObj.tempPlayersPositionsY, 6);
 =======
+=======
+>>>>>>> parent of 9daa4bc... ScrewedVersion
         if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX + 4) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY + 4))
         {
         }
@@ -132,6 +143,9 @@ public class MouseInput : MonoBehaviour
         {
             BoardObj.tempPiece.transform.position = new Vector3(BoardObj.tempPlayersPositionsX, BoardObj.tempPlayersPositionsY, 6);
         }
+<<<<<<< HEAD
+>>>>>>> parent of 9daa4bc... ScrewedVersion
+=======
 >>>>>>> parent of 9daa4bc... ScrewedVersion
         print("OUCH!!!");
     }
@@ -311,11 +325,14 @@ public class MouseInput : MonoBehaviour
                     
                 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             }           
             
         
 =======
+=======
+>>>>>>> parent of 9daa4bc... ScrewedVersion
             }     
 >>>>>>> parent of 9daa4bc... ScrewedVersion
     }
