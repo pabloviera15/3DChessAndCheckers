@@ -97,21 +97,31 @@ public class MouseInput : MonoBehaviour
             if (this.gameObject.tag == "Player1")
             {
                 DeagonalShortMovePlayer1();
-                //DeagonalJUMPPlayer1();
+                DeagonalJUMPPlayer1();
             }
             else if (this.gameObject.tag == "Player2")
             {
                 DeagonalShortMovePlayer2();
-               //DeagonalJUMPPlayer2();
+                DeagonalJUMPPlayer2();
             }
 
 
         }
     }
 
+    //If two pieces are in the same place collide and return the piece to where it was dragged
     private void OnTriggerEnter(Collider other)
     {
-        BoardObj.tempPiece.transform.position = new Vector3(BoardObj.tempPlayersPositionsX, BoardObj.tempPlayersPositionsY, 6);
+        if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX + 4) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY + 4))
+        {
+        }
+        else if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX - 4) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY - 4))
+        {
+        }
+        else
+        {
+            BoardObj.tempPiece.transform.position = new Vector3(BoardObj.tempPlayersPositionsX, BoardObj.tempPlayersPositionsY, 6);
+        }
         print("OUCH!!!");
     }
 
@@ -289,10 +299,7 @@ public class MouseInput : MonoBehaviour
                     }
                     
                 }
-
-            }           
-            
-        
+            }     
     }
 
     void DeagonalShortMovePlayer1()
