@@ -167,7 +167,7 @@ public class MouseInput : MonoBehaviour
 
         //JUMP Left
         //If a piece is on the next place JUMP
-        else if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX - 4) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY + 4))
+        if (BoardObj.tempUpdatedPlayersPositionX == (BoardObj.tempPlayersPositionsX - 4) && BoardObj.tempUpdatedPlayersPositionY == (BoardObj.tempPlayersPositionsY + 4))
         {
             for (int i = 0; i < player1List.Count; i++)
             {
