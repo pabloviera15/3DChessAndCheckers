@@ -53,7 +53,8 @@ public class MouseInput : MonoBehaviour
     //Update  dragging with mouse
     void OnMouseDrag()
     {
-        tempMousePosition.z = 17; // Set this to be the distance you want the object to be placed in front of the camera.
+        // Set this to be the distance you want the object to be placed in front of the camera.
+        tempMousePosition.z = 17; 
         //Get relative position mapped between the camera and thedistance
         this.transform.position = Camera.main.ScreenToWorldPoint(tempMousePosition);
 
@@ -82,6 +83,7 @@ public class MouseInput : MonoBehaviour
             //If the position coordinades are even move the piece to the center of the new tile
             if (BoardObj.tempUpdatedPlayersPositionX % 2 == 0 || BoardObj.tempUpdatedPlayersPositionY % 2 == 0)
             {
+                //TO-DO Do the double jump
                 //--------------------------------------------------------------------------PLAYER 1----------------------------------------------------------------------------------------------------------------
                 if (playersTurnBoolObj.playersTurnBool == true)
                 {
@@ -90,8 +92,14 @@ public class MouseInput : MonoBehaviour
                     {
                         //Calculate next one square space movement
                         DeagonalShortMovePlayer1();
-                        //Calculate jump if there is an enemy or ally piece
-                        DeagonalJUMPPlayer1();
+                        //Calculate jump if there is an enemy or ally piece                        
+                        while(playersTurnBoolObj.playersTurnBool == true)
+                        {
+                            DeagonalJUMPPlayer1();
+
+                            break;
+                        }
+                        print(BoardObj.playersTurnBool);
                     }
                     //If Player 1 turn and move a Player2 piece return to place
                     else if (this.gameObject.tag == "Player2")
@@ -108,7 +116,12 @@ public class MouseInput : MonoBehaviour
                         //Calculate next one square space movement
                         DeagonalShortMovePlayer2();
                         //Calculate jump if there is an enemy or ally piece
-                        DeagonalJUMPPlayer2();
+                        while (playersTurnBoolObj.playersTurnBool == true)
+                        {
+                            DeagonalJUMPPlayer2();
+                            break;
+                        }
+                        print(BoardObj.playersTurnBool);
                     }
                     else if (this.gameObject.tag == "Player1")
                     {
@@ -151,7 +164,7 @@ public class MouseInput : MonoBehaviour
     }
 
     //Limit themovements to checker account
-    void DeagonalJUMPPlayer1()
+    void DeagonalJUMPPlayer1() 
     {
         //--------------------------------------------------------------------------PLAYER 1----------------------------------------------------------------------------------------------------------------                 
         //JUMP Right
@@ -164,10 +177,10 @@ public class MouseInput : MonoBehaviour
                 if ((player1List[i].transform.position.x == (BoardObj.tempPlayersPositionsX + 2) && player1List[i].transform.position.y == (BoardObj.tempPlayersPositionsY + 2)))
                 {
                     this.transform.position = new Vector3(BoardObj.tempPlayersPositionsX + 4, BoardObj.tempPlayersPositionsY + 4, 6);
-
                 }
                 //if player 2 piece is on the next move, jump and delete it
-                if ((player2List[i].transform.position.x == (BoardObj.tempPlayersPositionsX + 2) && player2List[i].transform.position.y == (BoardObj.tempPlayersPositionsY + 2)))
+                else if ((player2List[i].transform.position.x == (BoardObj.tempPlayersPositionsX + 2) && player2List[i].transform.position.y == (BoardObj.tempPlayersPositionsY + 2))
+                    && player1List[i].transform.position.x != BoardObj.tempPlayersPositionsX + 4 && player1List[i].transform.position.x != BoardObj.tempPlayersPositionsX + 4)
                 {
                     this.transform.position = new Vector3(BoardObj.tempUpdatedPlayersPositionX, BoardObj.tempUpdatedPlayersPositionY, 6);
 
@@ -175,12 +188,9 @@ public class MouseInput : MonoBehaviour
 
                     BoardObj.yOffset4DeadPieces++;
 
+                    DeagonalJUMPPlayer1();
                 }
-
             }
-
-            TooglePlayersTurnBool1();
-
         }
 
         //JUMP Left
@@ -194,25 +204,23 @@ public class MouseInput : MonoBehaviour
                 if ((player1List[i].transform.position.x == (BoardObj.tempPlayersPositionsX - 2) && player1List[i].transform.position.y == (BoardObj.tempPlayersPositionsY + 2)))
                 {
                     this.transform.position = new Vector3(BoardObj.tempPlayersPositionsX - 4, BoardObj.tempPlayersPositionsY + 4, 6);
-
                 }
                 //if player 2 piece is on the next move, jump and delete it
-                if ((player2List[i].transform.position.x == (BoardObj.tempPlayersPositionsX - 2) && player2List[i].transform.position.y == (BoardObj.tempPlayersPositionsY + 2)))
+                else if ((player2List[i].transform.position.x == (BoardObj.tempPlayersPositionsX - 2) && player2List[i].transform.position.y == (BoardObj.tempPlayersPositionsY + 2))
+                       && player1List[i].transform.position.x == BoardObj.tempPlayersPositionsX - 4 && player1List[i].transform.position.x == BoardObj.tempPlayersPositionsX + 4)
                 {
                     this.transform.position = new Vector3(BoardObj.tempUpdatedPlayersPositionX, BoardObj.tempUpdatedPlayersPositionY, 6);
 
                     MoveDeadPlayer2ToTheSide(i);
 
                     BoardObj.yOffset4DeadPieces++;
+
+                    DeagonalJUMPPlayer1();
                 }
-                if (BoardObj.tempUpdatedPlayersPositionY >= 12)
-                {
-                    break;
-                }
+                
 
             }
-
-            TooglePlayersTurnBool1();
+            
         }
 
     }
